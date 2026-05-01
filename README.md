@@ -35,3 +35,56 @@ a gamified Food Passport, scheduled delivery, and Razorpay payments.
 ---
 
 ## Project Structure
+tastytap/
+├── server/     # Node.js + Express REST API
+├── client/     # React.js web app
+└── mobile/     # Flutter mobile app
+---
+
+## Getting Started
+
+### Prerequisites
+- Node.js 20+
+- MongoDB (local or Atlas)
+- Flutter SDK
+- Razorpay account (test mode works)
+
+### Backend
+```bash
+cd server
+npm install
+cp .env.example .env   # fill in your values
+node server.js
+```
+
+### Frontend
+```bash
+cd client
+npm install
+npm start
+```
+
+### Mobile
+```bash
+cd mobile
+flutter pub get
+flutter run
+```
+
+---
+
+## Screenshots
+
+[drop 4-5 screenshots here]
+
+---
+
+## Database Design
+
+10 MongoDB collections: users, restaurants, menus, orders, orderitems,
+deliveries, deliverypartners, payments, grouporders, coupons, trendingcache.
+
+Key design decisions:
+- Order items stored separately from orders to support the reorder-window feature
+- Group order members embedded as arrays for atomic updates
+- Trending data pre-computed every 15 mins via cron into a trendingcache collection
