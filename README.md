@@ -76,8 +76,30 @@ flutter run
 ---
 
 ## Screenshots
+### Authentication
+![Login](Picture1.png)
+![Mobile Login](Picture3.png)
 
-[drop 4-5 screenshots here]
+### Browsing & Recommendations
+![Restaurants](Picture5.png)
+![Mood Recommendations](Picture26.png)
+![Trending Near You](Picture33.png)
+
+### Ordering & Payment
+![Mobile Menu & Cart](Picture15.png)
+![Razorpay Payment](Picture14.png)
+
+### Group Ordering
+![Group Order Home](Picture19.png)
+![Create Room – Split](Picture20.png)
+![Create Room – Host Pays](Picture21.png)
+![Join Room](Picture22.png)
+![Live Room](Picture23.png)
+![Group Checkout](Picture24.png)
+
+### Profile & Gamification
+![Dietary Profile](Picture30.png)
+![Food Passport](Picture28.png)
 
 ---
 
