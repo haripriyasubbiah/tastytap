@@ -1,0 +1,27 @@
+{
+  "type": "Compass Connections",
+  "version": {
+    "$numberInt": "1"
+  },
+  "connections": [
+    {
+      "id": "e3722aa0-71e3-4570-bbe6-5dbb03168672",
+      "lastUsed": {
+        "$date": {
+          "$numberLong": "1772095994141"
+        }
+      },
+      "favorite": {
+        "name": "Food Ordering DB",
+        "color": "color7"
+      },
+      "savedConnectionType": "favorite",
+      "connectionOptions": {
+        "connectionString": "mongodb://localhost:27017/",
+        "oidc": {
+          "serializedState": "eyJvaWRjUGx1Z2luU3RhdGVWZXJzaW9uIjoxLCJzdGF0ZSI6W119"
+        }
+      }
+    }
+  ]
+}
