@@ -35,11 +35,13 @@ a gamified Food Passport, scheduled delivery, and Razorpay payments.
 ---
 
 ## Project Structure
+
+```
 tastytap/
 ├── server/     # Node.js + Express REST API
 ├── client/     # React.js web app
 └── mobile/     # Flutter mobile app
----
+```
 
 ## Getting Started
 
