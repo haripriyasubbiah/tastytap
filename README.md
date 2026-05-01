@@ -83,10 +83,24 @@ flutter run
 
 ## Database Design
 
-10 MongoDB collections: users, restaurants, menus, orders, orderitems,
-deliveries, deliverypartners, payments, grouporders, coupons, trendingcache.
+11 MongoDB collections: `users`, `restaurants`, `menus`, `orders`, `orderitems`,
+`deliveries`, `deliverypartners`, `payments`, `grouporders`, `coupons`, `trendingcache`
 
-Key design decisions:
-- Order items stored separately from orders to support the reorder-window feature
-- Group order members embedded as arrays for atomic updates
-- Trending data pre-computed every 15 mins via cron into a trendingcache collection
+**Embedding vs. referencing trade-offs**
+
+| Data | Strategy | Reason |
+|---|---|---|
+| Dietary prefs / allergens | Embedded in `users` | Always read with user, never queried independently |
+| Food Passport progress | Embedded sub-doc in `users` | Atomic `$set` on every new cuisine explored |
+| Order items | Separate `orderitems` collection | Needs independent inserts for the reorder-window feature |
+| Group order members | Embedded `members[]` array | Entire group state always read together |
+| Delivery info | Separate `deliveries` collection | Status updated independently; partner ID needed for separate writes |
+
+**Key patterns implemented**
+
+- **Aggregation pipeline** — 3-stage `$match → $group → $sort` pipeline for neighbourhood trending (equivalent to SQL `GROUP BY` with timestamp filter)
+- **Materialised view via cron** — `trendingcache` dropped and rebuilt every 15 mins from a 2-hour orders aggregate; endpoint reads cache, falls back to live query on cold start
+- **Atomic operators** — `$inc` for reorder totals, `$set/$unset` for partner availability, `$push/$pull` for group order membership — all single-write atomic mutations
+- **Query-time annotation** — dietary filter engine computes `containsAllergen` and `matchesPreference` flags on read using a `PREFERENCE_BLOCKLIST` map, without mutating stored documents (equivalent to a SQL view with CASE expressions)
+- **Application-level referential integrity** — MongoDB has no FK constraints; enforced in route handlers (restaurant existence check, coupon `used: false` guard, Razorpay HMAC-SHA256 recomputed before any DB write)
+- **Order status state machine** — `Placed → Confirmed → Preparing → Out for Delivery → Delivered`, with alternate paths for scheduled and group orders; transitions enforced by admin route with side-effects (partner release, delivery time computation)
